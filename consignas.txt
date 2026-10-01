@@ -1,0 +1,71 @@
+Ejercicio de Spring Boot - Sistema de Gestión de Cursos
+Nivel: Básico - Intermedio
+Lenguaje: Java 17+
+Framework: Spring Boot 3.x
+🎯 Objetivo
+Construir una API REST con Spring Boot que permita:
+- Listar cursos, profesores y estudiantes.
+- Crear nuevos cursos con su profesor.
+- Asignar estudiantes a un curso.
+🧱 Entidades del Sistema
+1. Profesor: contiene los datos básicos del docente (id, nombre, email).
+2. Estudiante: contiene los datos del alumno (id, nombre, matrícula).
+3. Curso: contiene el nombre del curso, un profesor asociado y una lista de estudiantes.
+⚙️ Relaciones entre Entidades
+- Un Profesor puede tener varios Cursos (relación @ManyToOne desde Curso).
+- Un Curso puede tener varios Estudiantes, y un Estudiante puede pertenecer a varios Cursos (relación @ManyToMany).
+📁 Estructura esperada del proyecto
+curso-app/
+ ├── entity/
+ │     ├── Curso.java
+ │     ├── Profesor.java
+ │     └── Estudiante.java
+ ├── repository/
+ │     ├── CursoRepository.java
+ │     ├── ProfesorRepository.java
+ │     └── EstudianteRepository.java
+ ├── service/
+ │     └── CursoService.java
+ ├── controller/
+ │     └── CursoController.java
+ └── CursoAppApplication.java
+🧩 Funcionalidades a Implementar
+- Crear un endpoint para listar todos los cursos.
+- Crear un endpoint para registrar un nuevo curso asignándole un profesor existente.
+- Crear un endpoint para asignar estudiantes a un curso.
+- Crear endpoints simples para registrar y listar profesores y estudiantes.
+💾 Configuración de Base de Datos
+Usar una base de datos en memoria H2.
+
+application.yml:
+spring:
+  datasource:
+    url: jdbc:h2:mem:cursoapp
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+🚀 Pruebas con Postman
+1️⃣ Crear profesor
+POST http://localhost:8080/profesores
+{ "nombre": "Juan Pérez", "email": "juan@mail.com" }
+
+2️⃣ Crear estudiante
+POST http://localhost:8080/estudiantes
+{ "nombre": "Ana", "matricula": "A123" }
+
+3️⃣ Crear curso con profesor existente
+POST http://localhost:8080/cursos
+{ "nombre": "Programación Java", "profesor": { "id": 1 }, "estudiantes": [] }
+
+4️⃣ Agregar estudiante al curso
+POST http://localhost:8080/cursos/1/agregar-estudiante/1
+
+5️⃣ Listar cursos
+GET http://localhost:8080/cursos
